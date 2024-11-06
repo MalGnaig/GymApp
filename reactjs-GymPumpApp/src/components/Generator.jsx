@@ -4,8 +4,6 @@ import { SCHEMES, WORKOUTS } from '../utils/workouts'
 import { useState } from 'react';
 import Button from './Button';
 
-
-
 // We make this function instead of creating another class component and we can call this underneath now
 function Header(props) {
   const {index, title, description} = props
@@ -20,11 +18,9 @@ function Header(props) {
   )
 }
 
-export default function Generator() {
+export default function Generator(props) {
   const [showMuscleGroups, setShowMuscleGroups] = useState(false);
-  const [poison, setPoison] = useState('individual');
-  const [muscleGroups, setMuscleGroups] = useState([]);
-  const [goal, setGoal] = useState();
+  const{poison, setPoison, muscleGroups, setMuscleGroups, goal, setGoal, updateWorkout} = props;
 
 
   function toggleMuscleGroups() {
@@ -86,16 +82,13 @@ export default function Generator() {
             {showMuscleGroups && (
               <div className='flex flex-col mt-2'>
                 {(poison === 'individual' ? WORKOUTS[poison] : Object.keys(WORKOUTS[poison])).map((muscleGroup, muscleGroupIndex) => (
-                  <button onClick ={ () => updateMuscles(muscleGroup)} key={muscleGroupIndex} className= {"uppercase p-2 rounded bg-slate-800 text-white hover:bg-blue-500 " + (muscleGroups.includes(muscleGroup) ? 'bg-blue-500' : '')}>
+                  <button onClick ={ () => updateMuscles(muscleGroup)} key={muscleGroupIndex} className= {"uppercase p-2 rounded bg-slate-800 text-white hover:bg-blue-500 " + (muscleGroups.includes(muscleGroup) ? 'bg-blue-700' : '')}>
                     {muscleGroup}
                   </button> 
                 ))}
               </div>
             )}
           </div>
-
-
-
 
         <Header index = {'03'} title = {"Choose your Workout Scheme"}/>  {/*This os using the function Header above to create a section */}
                 <div className='grid grid-cols-3 gap-4'>
@@ -108,7 +101,7 @@ export default function Generator() {
                       </button>
                 ))}
                 </div>
-                <Button> 💪 FORMULATE PROGRAMME 💪</Button>
+                <Button func={updateWorkout}> 💪 FORMULATE PROGRAMME 💪</Button>
 
       </SectionWrapper>
 
